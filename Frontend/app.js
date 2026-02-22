@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/analyze";
+const API_URL = "https://cravecompass-api.onrender.com/analyze";
 
 const uploadBtn = document.getElementById("upload-btn");
 const imageUpload = document.getElementById("image-upload");
@@ -184,7 +184,7 @@ async function fetchItemDetails(itemName, btnElement) {
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/item-details?item_name=${encodeURIComponent(itemName)}`,
+      `https://cravecompass-api.onrender.com/item-details?item_name=${encodeURIComponent(itemName)}`,
     );
 
     if (!response.ok) {
