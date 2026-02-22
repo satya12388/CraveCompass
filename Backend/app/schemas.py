@@ -26,10 +26,19 @@ class ValidateInputQuery(BaseModel):
 
 
 # -------- Menu Item Model --------
+ALLOWED_CATEGORIES = {"Veg", "Non-Veg", "Beverages", "Desserts", "Others"}
+
 class MenuItem(BaseModel):
     name: str
     price: float
-    category: Literal["Veg","Non-Veg","Beverages","Desserts","Others"]
+    category: str
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def validate_category(cls, value):
+        if value not in ALLOWED_CATEGORIES:
+            return "Others"
+        return value
 
 # -------- Item Details Models --------
 class NutritionInfo(BaseModel):
