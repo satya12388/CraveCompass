@@ -73,7 +73,16 @@ analyzeBtn.addEventListener("click", async () => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.detail || `Server error: ${response.status}`);
+      let errorMsg = data.detail || `Server error: ${response.status}`;
+      // Catch long messy Pydantic validation logs and show a clean message
+      if (
+        errorMsg.includes("validation error") ||
+        errorMsg.includes("Failed to parse")
+      ) {
+        errorMsg =
+          "The AI couldn't confidently read the items on this menu. Please try a clearer or simpler image!";
+      }
+      throw new Error(errorMsg);
     }
 
     if (data.success && data.data) {
