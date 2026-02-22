@@ -69,44 +69,44 @@ The codebase is organized into a single monorepo for ease of development:
 
 ---
 
-## Deployment Guide 🚀 (Free Tier)
+## Deployment Guide 🚀 (Free Platforms)
 
-Because this is a decoupled monorepo, you can host the Frontend and Backend on separate dedicated cloud platforms for maximum and free performance.
+Because this is a decoupled monorepo, you can host the Frontend and Backend on separate dedicated cloud platforms for maximum performance.
 
 ### Step 1: Push to GitHub
 
 Ensure this entire root folder (including both `Frontend/` and `Backend/` and `requirements.txt`) is pushed to a Github Repository.
 
-### Step 2: Deploy Backend (Render)
+### Step 2: Deploy Backend (Any Cloud Provider)
 
-1. Log into [Render.com](https://render.com) and create a new **Web Service**.
+1. Log into your preferred cloud hosting platform that supports Python (e.g., Render, Railway, Heroku).
 2. Connect your GitHub repository.
-3. Keep the **Root Directory** setting fully blank so Render can find the `requirements.txt` at the root base.
-4. Set the **Build Command** to: `pip install -r requirements.txt`
-5. Set the **Start Command** to: `cd Backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-6. Add your `GROQ_API_KEY` and `TAVILY_API_KEY` as Environment Variables in the Render dashboard.
-7. Deploy! Render will give you a live URL (e.g., `https://cravecompass-api.onrender.com`).
+3. Configure the **Build/Start Commands**:
+   - **Build**: `pip install -r requirements.txt`
+   - **Start**: `cd Backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+4. Add your `GROQ_API_KEY` and `TAVILY_API_KEY` as secure Environment Variables in your hosting dashboard.
+5. Deploy! The provider will give you a live URL for your application.
 
 ### Step 3: Wire the Frontend
 
 1. Open `Frontend/app.js` locally.
-2. Change the `API_URL` to point to the new Render URL you just generated:
+2. Change the `API_URL` to point to the new remote URL you just generated:
    ```javascript
-   const API_URL = "https://cravecompass-api.onrender.com/analyze";
+   const API_URL = "https://your-new-api-url.com/analyze";
    ```
-3. In the `fetchItemDetails` function further down, change the fetch URL to point to `https://cravecompass-api.onrender.com/item-details?item_name=...`
+3. In the `fetchItemDetails` function further down, change the fetch URL to point to `https://your-new-api-url.com/item-details?item_name=...`
 4. Commit and push these changes to GitHub.
 
-### Step 4: Deploy Frontend (Vercel)
+### Step 4: Deploy Frontend (Any Static Host)
 
-1. Log into [Vercel](https://vercel.com) and "Add New Project".
+1. Log into your preferred static site hosting platform (e.g., Vercel, Netlify, GitHub Pages).
 2. Import your GitHub repository.
-3. Open the **"Framework Preset"** or **"Root Directory"** settings, and explicitly select the `Frontend` folder.
-4. Deploy! Vercel will give you a blazing-fast URL (e.g., `https://cravecompass.vercel.app`).
+3. Open the platform's **"Root Directory"** settings, and explicitly select the `Frontend` folder.
+4. Deploy! The platform will give you a live URL where your UI is hosted.
 
 ### Step 5: Final Security Handshake
 
-1. To ensure your backend accepts requests from your live frontend, open `Backend/app/main.py`.
+1. To ensure your backend strictly accepts requests from your live frontend, open `Backend/app/main.py`.
 2. Find the `CORSMiddleware` configuration block.
-3. Add your exact Vercel URL to the `allow_origins=` list.
-4. Commit and push. Your live Render server will automatically pull the change, reboot, and your full-stack AI app is now securely live!
+3. Add your exact frontend URL to the `allow_origins=` list.
+4. Commit and push. Your backend server will reboot, and your full-stack AI app is now securely live!
